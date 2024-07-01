@@ -12,7 +12,11 @@
   <header class="mdl-layout__header">
     <div class="mdl-layout__header-row">
       <!-- Title -->
-      <span class="mdl-layout-title">Welcome {{request.user.first_name}}</span>
+      <span class="mdl-layout-title">
+        {% if request.user.is_authenticated %}
+        Welcome {{request.user}}
+        {% endif %}
+      </span>
       <!-- Add spacer, to align navigation to the right -->
       <div class="mdl-layout-spacer"></div>
       <!-- Navigation. We hide it in small screens. -->
@@ -35,16 +39,30 @@
   </div>
   <main class="mdl-layout__content">
     <div class="page-content">
+
+      {% if request.user.is_authenticated %}
+
+      {% for message in messages %}
+      <div>
+        [{{ message.created_at}}]: {{ message.author }}: {{ message.text }}
+      </div>
+      {% endfor %}
+
       <!-- Accent-colored raised button with ripple -->
-      <form action="#">
+      <form action="/chat/" method="post">
+        {% csrf_token %}
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <input class="mdl-textfield__input" type="text" id="sample3">
+          <input class="mdl-textfield__input" name="textmessage" type="text" id="sample3">
           <label class="mdl-textfield__label" for="sample3">Text...</label>
         </div>
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
           Send
         </button>
       </form>
+      {% else %}
+      <h1>Please login</h1>
+      <p>Du bist aktuelll nicht einleoggt</p>
+      {% endif %}
 
     </div>
   </main>
