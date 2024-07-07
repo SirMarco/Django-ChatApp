@@ -15,6 +15,7 @@
 
   <form method="POST" action="/login/">
     {% csrf_token %}
+    <input type="hidden" name="redirect" value="{{ redirect }}">
     <div>
       <input type="text" placeholder="Dein Name" name="username">
     </div>

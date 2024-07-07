@@ -2,8 +2,11 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .models import Message, Chat
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/login/')
 def index(request):
+
   if request.method == 'POST':
     print("Revived Data: " + request.POST['textmessage'])
     testChat = Chat.objects.get(id=1) 
@@ -13,13 +16,15 @@ def index(request):
   return render(request, 'chat/index.html', {'messages': chatMessages})
 
 def login_view(request):
+    redirect = request.GET.get('next')
     if request.method == 'POST':
        user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
        if user:
           login(request, user)
-          return HttpResponseRedirect('/chat/')
+          return HttpResponseRedirect(request.POST.get('redirect'))
        else:
           print('user wrong')
-          return render(request, 'auth/login.html', {'wrongPasswort': True})
+          return render(request, 'auth/login.html', {'wrongPasswort': True, 'redirect': redirect})
        
-    return render(request, 'auth/login.html')
+    return render(request, 'auth/login.html', {'redirect': redirect})
+
