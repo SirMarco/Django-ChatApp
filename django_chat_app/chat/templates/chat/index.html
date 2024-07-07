@@ -15,26 +15,28 @@
       <span class="mdl-layout-title">
         {% if request.user.is_authenticated %}
         Welcome {{request.user}}
+        {%else%}
+        Welcome! Please login
         {% endif %}
       </span>
       <!-- Add spacer, to align navigation to the right -->
       <div class="mdl-layout-spacer"></div>
       <!-- Navigation. We hide it in small screens. -->
       <nav class="mdl-navigation mdl-layout--large-screen-only">
-        <a class="mdl-navigation__link" href="">Link</a>
-        <a class="mdl-navigation__link" href="">Link</a>
-        <a class="mdl-navigation__link" href="">Link</a>
-        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">1</a>
+        <a class="mdl-navigation__link" href="">2</a>
+        <a class="mdl-navigation__link" href="">3</a>
+        <a class="mdl-navigation__link" href="">4</a>
       </nav>
     </div>
   </header>
   <div class="mdl-layout__drawer">
     <span class="mdl-layout-title">Chatroom</span>
     <nav class="mdl-navigation">
-      <a class="mdl-navigation__link" href="">Link</a>
-      <a class="mdl-navigation__link" href="">Link</a>
-      <a class="mdl-navigation__link" href="">Link</a>
-      <a class="mdl-navigation__link" href="">Link</a>
+      <a class="mdl-navigation__link" href="">1</a>
+      <a class="mdl-navigation__link" href="">2</a>
+      <a class="mdl-navigation__link" href="">3</a>
+      <a class="mdl-navigation__link" href="">4</a>
     </nav>
   </div>
   <main class="mdl-layout__content">
@@ -61,7 +63,8 @@
       </form>
       {% else %}
       <h1>Please login</h1>
-      <p>Du bist aktuelll nicht einleoggt</p>
+      <p>Du bist aktuell nicht eingeloggt</p><br>
+      <p>Bitte anmelden <a href="/login/">Login</a></p>
       {% endif %}
 
     </div>
