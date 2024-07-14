@@ -1,10 +1,11 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from .models import Message, Chat
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core import serializers
 
 @login_required(login_url='/login/')
 def index(request):
@@ -12,23 +13,25 @@ def index(request):
     print("Revived Data: " + request.POST['textmessage'])
     testChat = Chat.objects.get(id=1) 
     # create ein neues object vom Typ Message. 
-    Message.objects.create(text=request.POST['textmessage'], chat=testChat, author=request.user, receiver=request.user)
+    new_message =  Message.objects.create(text=request.POST['textmessage'], chat=testChat, author=request.user, receiver=request.user)
+    serialized_obj = serializers.serialize('json', [ new_message ])
+    return JsonResponse(serialized_obj[1:-1], safe=False)
   chatMessages = Message.objects.filter(chat__id=1)    
   return render(request, 'chat/index.html', {'messages': chatMessages})
 
 def login_view(request):
-    redirect_url = request.GET.get('next', '/chat/')
-    
+    redirect = request.GET.get('next', '/chat')
     if request.method == 'POST':
-        user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
-        if user:
-            login(request, user)
-            return redirect(request.POST.get('redirect', redirect_url))
-        else:
-            messages.error(request, 'Falsche Userdaten')
-            return render(request, 'auth/login.html', {'wrongPasswort': True, 'redirect': redirect_url})
-    
-    return render(request, 'auth/login.html', {'redirect': redirect_url})
+       user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
+       if user:
+          login(request, user)
+          return HttpResponseRedirect(request.POST.get('redirect'))
+       else:
+          print('user wrong')
+          messages.success(request, 'Falsche Userdaten')
+          return render(request, 'auth/login.html', {'wrongPasswort': True, 'redirect': redirect})
+       
+    return render(request, 'auth/login.html', {'redirect': redirect})
 
 def register_view(request):
     if request.method == 'POST':
