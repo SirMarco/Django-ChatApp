@@ -1,3 +1,4 @@
+import json
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from .models import Message, Chat
@@ -15,7 +16,11 @@ def index(request):
     # create ein neues object vom Typ Message. 
     new_message =  Message.objects.create(text=request.POST['textmessage'], chat=testChat, author=request.user, receiver=request.user)
     serialized_obj = serializers.serialize('json', [ new_message ])
-    return JsonResponse(serialized_obj[1:-1], safe=False)
+    # Statt das serialisierte Objekt als String zurückzugeben, parsen wir es zuerst zu einem Python-Objekt
+    serialized_obj = serializers.serialize('json', [new_message])
+    serialized_obj = json.loads(serialized_obj)[0]['fields']  # Nimm das erste Element aus der Liste
+    print(serialized_obj)
+    return JsonResponse(serialized_obj, safe=False)
   chatMessages = Message.objects.filter(chat__id=1)    
   return render(request, 'chat/index.html', {'messages': chatMessages})
 

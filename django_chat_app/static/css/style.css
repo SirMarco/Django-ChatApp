@@ -1,7 +1,71 @@
+main {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
+
 .page-content {
-  padding: 100px 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 800px;
+}
+
+.chat-content {
+  position: relative;
+  max-width: 800px;
+  width: 100%;
+  margin: 16px;
+  height: 100%;
 }
 
 .color-gray {
   color: lightgray;
+}
+
+.color-blue {
+  color: dodgerblue;
+}
+
+.message {
+  color: red;
+  font-size: 16px;
+}
+
+.message-form-wrapper {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+}
+
+#messageContainer {
+  padding: 30px;
+  font-size: 20px;
+}
+
+.message-content {
+  display: flex;
+  margin-bottom: 3px;
+}
+
+.right {
+  justify-content: end;
+}
+
+.author {
+  margin-left: 4px;
+  font-weight: bold;
+}
+
+.border-chat {
+  border-radius: 10px;
+  -webkit-box-shadow: 9px 7px 20px -3px rgba(0, 0, 0, 0.38);
+  -moz-box-shadow: 9px 7px 20px -3px rgba(0, 0, 0, 0.38);
+  box-shadow: 9px 7px 20px -3px rgba(0, 0, 0, 0.38);
+}
+
+.border-red {
+  border: 2px solid red;
 }

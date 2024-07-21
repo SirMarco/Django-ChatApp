@@ -1,26 +1,29 @@
 {% extends "base.html" %}
 {% block content%}
 <div class="page-content">
-  <h2>Hier registrieren</h2>
-  <form method="POST" action="/register/">
-    {% csrf_token %}
-    <input type="hidden" name="redirect" value="{{ redirect }}">
-    <div>
-      <input type="text" placeholder="Dein Name" name="username" required>
-    </div>
-    <div>
-      <input type="text" placeholder="Deine EMail" name="email" required>
-    </div>
-    <div>
-      <input type="password" placeholder="Dein Password" name="password" required>
-    </div>
-    <div>
-      <input type="password" placeholder="Password wiederholen" name="password2" required>
-    </div>
-    <div>
-      <button type="submit" id="registerBtn">registrieren</button>
-    </div>
-  </form>
+  <div>
+    <h1>Welcome to our ChatRoom</h1>
+    <h2>Hier registrieren</h2>
+    <form method="POST" action="/register/">
+      {% csrf_token %}
+      <input type="hidden" name="redirect" value="{{ redirect }}">
+      <div class="form-outline mb-4">
+        <input type="text" class="form-control" placeholder="Dein Username" name="username" required>
+      </div>
+      <div class="form-outline mb-4">
+        <input type="text" class="form-control" placeholder="Deine EMail" name="email" required>
+      </div>
+      <div class="form-outline mb-4">
+        <input type="password" class="form-control" placeholder="Dein Password" name="password" required>
+      </div>
+      <div class="form-outline mb-4">
+        <input type="password" class="form-control" placeholder="Password wiederholen" name="password2" required>
+      </div>
+      <div>
+        <button type="submit" id="registerBtn" class="btn btn-primary btn-block">registrieren</button>
+      </div>
+    </form>
+  </div>
   {% if messages %}
   <div class="messages">
     {% for message in messages %}
