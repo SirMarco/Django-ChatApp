@@ -15,12 +15,13 @@
       <div id="deleteMessage" class="color-gray">
         <span class="">[${date}]</span> {{ request.user }}: <i class="">${messagefield.value}</i>
       </div>`;
+      document.getElementById("messagefield").value = "";
       let response = await fetch("/chat/", {
         method: "POST",
         body: fd,
       });
+
       let data = await response.json();
-      console.log(data);
       document.getElementById("deleteMessage").remove();
       messageContainer.innerHTML += `
       <div>

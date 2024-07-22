@@ -12,7 +12,10 @@ from django.core import serializers
 def index(request):
   if request.method == 'POST':
     print("Revived Data: " + request.POST['textmessage'])
-    testChat = Chat.objects.get(id=1) 
+    try:
+        testChat = Chat.objects.get(id=1)
+    except Chat.DoesNotExist:
+        testChat = Chat.objects.create(id=1)
     # create ein neues object vom Typ Message. 
     new_message =  Message.objects.create(text=request.POST['textmessage'], chat=testChat, author=request.user, receiver=request.user)
     serialized_obj = serializers.serialize('json', [ new_message ])
